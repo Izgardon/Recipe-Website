@@ -1,3 +1,5 @@
+import * as model from './model.js'
+
 const recipeContainer = document.querySelector('.recipe');
 
 
@@ -13,7 +15,7 @@ const timeout = function(s) {
 
 ///////////////////////////////////////
 
-
+//Reusable function for rendering loading spinner
 const renderSpinner = function(parentEl) {
     const markup = `
       <div class="spinner">
@@ -31,28 +33,14 @@ const renderSpinner = function(parentEl) {
 const showRecipe = async function() {
         try {
             const id = window.location.hash.slice(1);
-            //1)Loading recipe
+
+
+            if (!id) return;
             renderSpinner(recipeContainer)
-            const res = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
+                //1)Loading recipe
+            await model.loadRecipe(id);
+            const { recipe } = model.state
 
-            const data = await res.json();
-
-            if (!res.ok) throw new Error(`${data.message} (${res.status})`)
-
-            let { recipe } = data.data;
-
-            recipe = {
-                id: recipe.id,
-                title: recipe.title,
-                publisher: recipe.publisher,
-                sourceUrl: recipe.source_url,
-                image: recipe.image_url,
-                servings: recipe.servings,
-                cookingTime: recipe.cooking_time,
-                ingredients: recipe.ingredients,
-            }
-
-            console.log(recipe);
             // 2) Rendering recipe
             const markup = `
           
