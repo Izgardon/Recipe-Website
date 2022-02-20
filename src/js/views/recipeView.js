@@ -11,6 +11,29 @@ class RecipeView extends View {
         window.addEventListener('load', handler)
     }
 
+    addHandlerUpdateServings(handler) {
+
+        this._parentElement.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn--update-servings');
+            if (!btn) return;
+            else {
+                const updateTo = +btn.dataset.updateTo;
+
+                if (updateTo > 0) handler(updateTo);
+            }
+        })
+
+    }
+
+    addHandlerAddBookmark(handler) {
+        this._parentElement.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn--bookmark')
+            if (!btn) return
+            else {
+                handler();
+            }
+        })
+    }
 
 
     _generateMarkup() {
@@ -40,12 +63,12 @@ class RecipeView extends View {
                 <span class="recipe__info-text">servings</span>
 
                 <div class="recipe__info-buttons">
-                    <button class="btn--tiny btn--increase-servings">
+                    <button data-update-to="${this.data.servings - 1}" class="btn--tiny btn--update-servings">
                     <svg>
                         <use href="src/img/icons.svg#icon-minus-circle"></use>
                     </svg>
                     </button>
-                    <button class="btn--tiny btn--increase-servings">
+                    <button data-update-to="${parseInt(this.data.servings) + 1}" class="btn--tiny  btn--update-servings">
                     <svg>
                         <use href="src/img/icons.svg#icon-plus-circle"></use>
                     </svg>
@@ -56,9 +79,9 @@ class RecipeView extends View {
                 <div class="recipe__user-generated">
                 
                 </div>
-                <button class="btn--round">
+                <button class="btn--round btn--bookmark">
                 <svg class="">
-                    <use href="src/img/icons.svg#icon-bookmark-fill"></use>
+                    <use href="src/img/icons.svg#icon-bookmark${this.data.bookmarked ? '-fill': ''}"></use>
                 </svg>
                 </button>
             </div>
