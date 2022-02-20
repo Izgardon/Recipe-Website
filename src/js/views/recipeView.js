@@ -1,37 +1,20 @@
-class RecipeView {
-    parentElement = document.querySelector('.recipe');
-    data
+import View from './View.js';
 
-    render(data) {
-        this.data = data
-        const markup = this._generateMarkup();
-        this._clear();
+class RecipeView extends View {
+    _parentElement = document.querySelector('.recipe');
+    _errorMessage = "We could not find that recipe. Please try another."
+    message = ""
 
-        this.parentElement.insertAdjacentHTML('afterbegin', markup)
 
+    addHandlerRender(handler) {
+        window.addEventListener('hashchange', handler)
+        window.addEventListener('load', handler)
     }
 
-    _clear() {
-        this.parentElement.innerHTML = "";
-    }
 
-    //Reusable function for rendering loading spinner
-    renderSpinner = function() {
-        const markup = `
-      <div class="spinner">
-            <svg>
-              <use href="src/img/icons.svg#icon-loader"></use>
-            </svg>
-      </div>
-
-    `
-        this.parentElement.innerHTML = "";
-        this.parentElement.insertAdjacentHTML('afterbegin', markup)
-
-    }
 
     _generateMarkup() {
-            console.log(this.data)
+
             return `
           
                 <figure class="recipe__fig">
@@ -71,9 +54,7 @@ class RecipeView {
                 </div>
 
                 <div class="recipe__user-generated">
-                <svg>
-                    <use href="src/img/icons.svg#icon-user"></use>
-                </svg>
+                
                 </div>
                 <button class="btn--round">
                 <svg class="">
